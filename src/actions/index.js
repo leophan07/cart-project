@@ -13,3 +13,10 @@ export const changeMessage = (message) => {
     message
   }
 }
+
+export const deleteProductInCart = (product) => {
+  return {
+    type: types.DELETE_PRODUCT_IN_CART,
+    product
+  }
+}
