@@ -4,7 +4,6 @@ class CartResult extends Component {
 
   showTotalAmount = (cart) => {
     var total = 0;
-    console.log(cart);
     if (cart.length > 0) {
       for (var i = 0; i < cart.length; i++) {
         total += cart[i].product.price * cart[i].quantity;

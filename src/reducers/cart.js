@@ -1,41 +1,40 @@
-import * as types from '../constants/ActionTypes';
+import * as Types from '../constants/ActionTypes';
 
-// var data = JSON.parse(localStorage.getItem('CART'));
-var initialState = [
-  {
-    product: {
-      id: 1,
-      name: 'Iphone XS Max',
-      image: 'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-xs-max-256gb-moi-didongviet.jpg',
-      description: 'Made in Apple',
-      price: 1500,
-      inventory: 20,
-      rating: 5
-    },
-    quantity: 2
-  },
-  {
-    product: {
-      id: 3,
-      name: 'PocoPhone F1',
-      image: 'https://cdn.fptshop.com.vn/Uploads/Originals/2018/9/24/636733769809259305_pocophone-f1-xanh-1.jpg',
-      description: 'Made in Taiwan',
-      price: 600,
-      inventory: 10,
-      rating: 3
-    },
-    quantity: 3
-  }
-];
+var data = JSON.parse(localStorage.getItem('CART'));
+var initialState = data ? data : [];
 
 const cart = (state = initialState, action) => {
+  var index = -1;
+  var { product } = action;
   switch (action.type) {
-    case types.ADD_TO_CART:
-      console.log(action);
+    case Types.ADD_TO_CART:
+      index = findProductInCart(state, action.product);
+      if (index !== -1) {
+        state[index].quantity += 1;
+      } else {
+        state.push({
+          product,
+          quantity: 1
+        });
+      }
+      localStorage.setItem('CART', JSON.stringify(state));
       return [...state];
     default:
       return [...state];
   }
+}
+
+const findProductInCart = (cart, product) => {
+  var index = -1;
+  if (cart.length > 0) {
+    for(var i = 0; i < cart.length; i++) {
+      if (cart[i].product.id === product.id) {
+        index = i;
+        break;
+      }
+    }
+  }
+  return index;
 }
 
 export default cart;
